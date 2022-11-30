@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Linux权限提升 - A_Yu&#39;s Blog</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="本文记录linux下常见的提权技术" /><meta name="keywords" content='linux提权' /><meta itemprop="name" content="Linux权限提升">
+<meta itemprop="description" content="本文记录linux下常见的提权技术"><meta itemprop="datePublished" content="2022-11-22T19:45:23+08:00" />
+<meta itemprop="dateModified" content="2022-11-30T23:29:25+08:00" />
+<meta itemprop="wordCount" content="2034">
+<meta itemprop="keywords" content="linux提权," /><meta property="og:title" content="Linux权限提升" />
+<meta property="og:description" content="本文记录linux下常见的提权技术" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/2022-1122-01/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-22T19:45:23+08:00" />
+<meta property="article:modified_time" content="2022-11-30T23:29:25+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux权限提升"/>
+<meta name="twitter:description" content="本文记录linux下常见的提权技术"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://example.org/posts/2022-1122-01/" /><link rel="prev" href="http://example.org/posts/2022-1112-01/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Linux权限提升",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/example.org\/posts\/2022-1122-01\/"
+    },"genre": "posts","keywords": "linux提权","wordcount":  2034 ,
+    "url": "http:\/\/example.org\/posts\/2022-1122-01\/","datePublished": "2022-11-22T19:45:23+08:00","dateModified": "2022-11-30T23:29:25+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "作者"
+      },"description": "本文记录linux下常见的提权技术"
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="A_Yu&#39;s Blog"><span class="header-title-text">网络安全</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="A_Yu&#39;s Blog"><span class="header-title-text">网络安全</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container" data-page-style="narrow"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX">
+        <span>Linux权限提升</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span>
+          <span class="post-category">收录于 <a href="/categories/%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 权限提升</a></span></div>
+      <div class="post-meta-line"><span title=2022-11-22&#32;19:45:23><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-22">2022-11-22</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 2034 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#suid提权">SUID提权</a>
+      <ul>
+        <li><a href="#linux组管理">Linux组管理</a></li>
+        <li><a href="#linux权限控制">Linux权限控制</a></li>
+        <li><a href="#uid">UID</a>
+          <ul>
+            <li><a href="#分类">分类</a></li>
+          </ul>
+        </li>
+        <li><a href="#suid实例分析">SUID实例分析</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="suid提权">SUID提权</h2>
+<h3 id="linux组管理">Linux组管理</h3>
+<p>linux中的每个用户必须属于一个组，不能独立于组外，在linux中的每个文件都有所有者、所在组、其它组的概念。</p>
+<ul>
+<li>
+<p>所有者</p>
+<p>一般为文件的创建者，谁创建了该文件，就自然的成为该文件的所有者</p>
+</li>
+<li>
+<p>所在组</p>
+<p>当某个用户创建了一个文件后，这个文件的所在组就是该用户所在的组</p>
+</li>
+<li>
+<p>其它组</p>
+<p>除文件的所有者和所在组的用户外，系统的其它用户都是文件的其它组</p>
+</li>
+</ul>
+<p>一共有三个用户，jack用户、lisa用户、tom用户，其中jack属于组1、lisa和tom属于组2，tom用户创建了a.txt文件，则a.txt这个文件的所有者、所在组、其它组关系如下：</p>
+<a class="lightgallery" href="1619242323291-da2d93ad-826e-49d5-b1e6-9b58066bfd93.png" data-thumbnail="1619242323291-da2d93ad-826e-49d5-b1e6-9b58066bfd93.png" data-sub-html="<h2>1619242323291-da2d93ad-826e-49d5-b1e6-9b58066bfd93.png</h2>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="1619242323291-da2d93ad-826e-49d5-b1e6-9b58066bfd93.png"
+      data-srcset="1619242323291-da2d93ad-826e-49d5-b1e6-9b58066bfd93.png, 1619242323291-da2d93ad-826e-49d5-b1e6-9b58066bfd93.png 1.25x, 1619242323291-da2d93ad-826e-49d5-b1e6-9b58066bfd93.png 1.25x"
+      data-sizes="auto"
+      alt="1619242323291-da2d93ad-826e-49d5-b1e6-9b58066bfd93.png"
+      title="1619242323291-da2d93ad-826e-49d5-b1e6-9b58066bfd93.png" width=" 70%" data-w/>
+  </a>
+<h3 id="linux权限控制">Linux权限控制</h3>
+<div class="details admonition quote open">
+    <div class="details-summary admonition-title">
+      <i class="icon fa-solid fa-quote-right fa-fw" aria-hidden="true"></i><code>ls -l</code>命令的结果如下:<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content">-rwxrw-r--  1  root  root  1213  Feb  2  09:39  abc</div>
+    </div>
+  </div>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">权限</th>
+<th style="text-align:center">链接数</th>
+<th style="text-align:center">所有者</th>
+<th style="text-align:center">所有组</th>
+<th style="text-align:center">文件大小</th>
+<th style="text-align:center">文件最后被修改的时间</th>
+<th style="text-align:center">文件名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-rwxrw-r&ndash;</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">root</td>
+<td style="text-align:center">root</td>
+<td style="text-align:center">1213k</td>
+<td style="text-align:center">Feb 2 09:39</td>
+<td style="text-align:center">abc</td>
+</tr>
+</tbody>
+</table>
+<div class="details admonition quote">
+    <div class="details-summary admonition-title">
+      <i class="icon fa-solid fa-quote-right fa-fw" aria-hidden="true"></i>详解<code>-rwxrw-r--</code><i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content"><p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="1234.png"
+    data-srcset="1234.png, 1234.png 1.25x, 1234.png 1.25x"
+    data-sizes="auto"
+    alt="image.png"
+    title="image.png"/></p>
+<ul>
+<li>
+<p>编号0的含义：第0位确定文件类型（d，-，l，c，b）</p>
+<ul>
+<li>- 代表普通文件</li>
+<li>d 是目录，相当于windows文件夹</li>
+<li>l 是链接，相当于Windows快捷方式</li>
+<li>c 是字符设备文件，鼠标，键盘</li>
+<li>b 是块设备文件，比如硬盘</li>
+</ul>
+</li>
+<li>
+<p>编号1~3含义：确定了该 <u>文件/目录</u> 所有者拥有该 <u>文件/目录</u> 的权限</p>
+<ul>
+<li>rwx代表文件abc的所有者root对该文件有可读(r)可写(w)可执行(x)的权限</li>
+</ul>
+</li>
+<li>
+<p>编号4~6含义：确定了该文件所属组对该文件的权限</p>
+<ul>
+<li>
+<p>编号4~6为 rw-</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="1619249641305-963c9536-4bc1-44bb-bf3c-ea3066f6ec2c.png"
+    data-srcset="1619249641305-963c9536-4bc1-44bb-bf3c-ea3066f6ec2c.png, 1619249641305-963c9536-4bc1-44bb-bf3c-ea3066f6ec2c.png 1.25x, 1619249641305-963c9536-4bc1-44bb-bf3c-ea3066f6ec2c.png 1.25x"
+    data-sizes="auto"
+    alt="image.png"
+    title="image.png"/></p>
+<p>说明组root对文件有可读(r)，可写(w)，但是没有可执行权限 ( 用 &ldquo;-&rdquo; 表示没有权限)</p>
+</li>
+</ul>
+</li>
+<li>
+<p>编号7~9含义：代表其它组的用户对该文件的权限</p>
+<ul>
+<li>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="1619250194654-72eb6d12-d2db-4df0-b6f7-0b96a657307b.png"
+    data-srcset="1619250194654-72eb6d12-d2db-4df0-b6f7-0b96a657307b.png, 1619250194654-72eb6d12-d2db-4df0-b6f7-0b96a657307b.png 1.25x, 1619250194654-72eb6d12-d2db-4df0-b6f7-0b96a657307b.png 1.25x"
+    data-sizes="auto"
+    alt="image.png"
+    title="image.png"/></p>
+<p>r--，说其它组对文件abc只是有可读(r)的权限，没有可写和可执行权限</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>注意</strong>：linux下面除了用rwx表示权限之外，还可以用数字表示：r代表4，w代表2，x代表1。如果文件拥有rwx权限就等价于4+2+1=7</p>
+</li>
+</ul>
+</div>
+    </div>
+  </div>
+<h3 id="uid">UID</h3>
+<p>在Linux中，经常会遇到各种用户ID（user identifier, UID）和组ID（group identifier, GID），Linux也是通过对这些ID的管理实现的自主访问控制（discretionary access control, DAC）</p>
+<p>用户ID（英语：user identifier，一般缩写为User ID或UID），全称用户标识符，在类UNIX系统中是内核用来辨识用户的一个无符号整型数值，亦是UNIX文件系统与进程的必要组成部分之一</p>
+<p>虽然我们登录Linux主机时使用的是账户，但是对于Linux系统而言，它只认识ID。而ID与账户的对应就记录在<code>/etc/passwd</code>文件中。可以通过命令<code>id</code>查看各个id与账户名的对应关系：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="12345.png"
+    data-srcset="12345.png, 12345.png 1.25x, 12345.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221129202908954"
+    title="image-20221129202908954"/></p>
+<h4 id="分类">分类</h4>
+<p>值得注	意的是，以下的分类都是针对进程而言的，只有进程才会有下述几种ID</p>
+<table>
+<thead>
+<tr>
+<th>中文</th>
+<th>英文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>真实用户ID</td>
+<td>Real UID（RUID）</td>
+</tr>
+<tr>
+<td>有效用户ID</td>
+<td>Effective UID（EUID）</td>
+</tr>
+<tr>
+<td>暂存用户ID</td>
+<td>Saved UID（SUID）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>RUID</p>
+<p>对于进程而言，创建该进程的用户的UID为此进程的RUID，比如：这里以lisa用户执行<code>./exp</code>创建了进程exp，所以进程exp的RUID即为lisa用户的UID，即执行<code>id</code>命令后得到uid值</p>
+</li>
+<li>
+<p>EUID</p>
+<p>主要用于<code>二进制可执行文件</code>的权限检查，对于一个可执行的二进制文件，文件能否执行就是取决于EUID，一般情况下，EUID=RUID</p>
+</li>
+<li>
+<p>SUID</p>
+<p>一般情况下，SUID=EUID，设置SUID后，可以让文件以<code>文件所有者</code>的权限来执行</p>
+</li>
+</ul>
+<div class="details admonition quote">
+    <div class="details-summary admonition-title">
+      <i class="icon fa-solid fa-quote-right fa-fw" aria-hidden="true"></i>RUID、EUID、SUID的深入理解<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content"><p>以lisa用户创建文件exp.c，来输出进程的ruid、euid、suid的值，内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">ruid</span><span class="p">,</span><span class="n">euid</span><span class="p">,</span><span class="n">suid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">getresuid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ruid</span><span class="p">,</span><span class="o">&amp;</span><span class="n">euid</span><span class="p">,</span><span class="o">&amp;</span><span class="n">suid</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">printf</span><span class="p">(</span><span class="s">&#34;ruid=%d,euid=%d,suid=%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="n">ruid</span><span class="p">,</span><span class="n">euid</span><span class="p">,</span><span class="n">suid</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pause</span><span class="p">();</span>	<span class="c1">//暂停，为了进程一直运行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后用gcc编译并执行，发现了进程exp的ruid、euid、suid都是1001，如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221129220223207.png"
+    data-srcset="image-20221129220223207.png, image-20221129220223207.png 1.25x, image-20221129220223207.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221129220223207"
+    title="image-20221129220223207"/></p>
+<p>注意：查看正在运行的进程的ruid、euid、suid还可以用<code>ps -ax -o ruid -o euid -o suid -o pid -o fname</code>，如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221129220945269.png"
+    data-srcset="image-20221129220945269.png, image-20221129220945269.png 1.25x, image-20221129220945269.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221129220945269"
+    title="image-20221129220945269"/></p>
+<p>为文件exp设置suid，如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221129221204398.png"
+    data-srcset="image-20221129221204398.png, image-20221129221204398.png 1.25x, image-20221129221204398.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221129221204398"
+    title="image-20221129221204398"/></p>
+<p>然后让用户tom运行，发现ruid是tom用户的uid，而euid和suid是lisa用户的uid，如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221129221455047.png"
+    data-srcset="image-20221129221455047.png, image-20221129221455047.png 1.25x, image-20221129221455047.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221129221455047"
+    title="image-20221129221455047"/></p>
+</div>
+    </div>
+  </div>
+<h3 id="suid实例分析">SUID实例分析</h3>
+<p>/etc/passwd文件用来存储所有的用户信息，任何用户都可以修改自己的密码。显然，其它用户在执行<code>/usr/bin/passwd</code>命令时修改了/etc/passwd文件。但是，查看/etc/passwd文件的权限，发现root用户对该文件有写入权限，而普通用户对该文件仅有读的权限，那么具体是什么原因导致用户可以修改/etc/passwd文件呢 ？</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221129223641514.png"
+    data-srcset="image-20221129223641514.png, image-20221129223641514.png 1.25x, image-20221129223641514.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221129223641514"
+    title="image-20221129223641514"/></p>
+<p>查看<code>/usr/bin/passwd</code>文件的权限，发现该文件被设置了suid位，如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221129223817192.png"
+    data-srcset="image-20221129223817192.png, image-20221129223817192.png 1.25x, image-20221129223817192.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221129223817192"
+    title="image-20221129223817192"/></p>
+<p>那么普通用户在执行<code>/usr/bin/passwd</code>时，就拥有了等同于文件&quot;/usr/bin/passwd&quot;的拥有者root的权限，而root用户对/etc/passwd文件有写权限，因此普通用户也具有了写权限，进而可以通过<code>/usr/bin/passwd</code>来修改/etc/passwd文件的内容。</p>
+<p>我们查看当前正在进行进程passwd，发现其euid和suid都是0，也就是root用户的uid，如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221129224714505.png"
+    data-srcset="image-20221129224714505.png, image-20221129224714505.png 1.25x, image-20221129224714505.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221129224714505"
+    title="image-20221129224714505"/></p>
+<p>如果清除掉<code>/usr/bin/passwd</code>的suid权限位，普通用户就无法修改自己的密码，如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221129225741298.png"
+    data-srcset="image-20221129225741298.png, image-20221129225741298.png 1.25x, image-20221129225741298.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221129225741298"
+    title="image-20221129225741298"/></p></div><div class="post-reward">
+    <div class="comment"></div>
+    <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
+    <label class="reward-button" for="fi-reward">赞赏</label>
+    <div class="reward-ways"><div>
+            <img src="/images/alipay.gif" alt=" 支付宝">
+            <span data-animation>支付宝</span>
+          </div></div>
+  </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-11-30&#32;23:29:25>更新于 2022-11-30&nbsp;</span>
+      </div></div>
+    <div class="post-info-line">
+      <div class="post-info-md"></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/posts/2022-1122-01/" data-title="Linux权限提升" data-hashtags="linux提权"><i class="fa-brands fa-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/posts/2022-1122-01/" data-title="Linux权限提升"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/posts/2022-1122-01/" data-title="Linux权限提升"><i class="fa-brands fa-evernote fa-fw" aria-hidden="true"></i></a>
+  </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/linux%E6%8F%90%E6%9D%83/' class="post-tag">linux提权</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/2022-1112-01/" class="post-nav-item" rel="prev" title="hugo主题修改(二)"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>hugo主题修改(二)</a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line statistics"><span class="site-time" title='网站运行中 ...'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i>&nbsp;<span class="run-times">网站运行中 ...</span></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/lunr/lunr.min.js" defer></script><script src="/lib/lunr/lunr.stemmer.support.min.js" defer></script><script src="/lib/lunr/lunr.zh.min.js" defer></script><script src="/lib/lazysizes/lazysizes.min.js" async defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePangu":true,"lightgallery":true,"search":{"highlightTag":"em","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50},"siteTime":"2022-11-11T16:15:22+08:00"};</script><script src="/js/theme.min.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@2.1.3/dist/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+
+</body>
+</html>

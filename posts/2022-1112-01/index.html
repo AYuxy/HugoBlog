@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>hugo主题修改(二) - A_Yu&#39;s Blog</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="记录图片的各种插入方式，同时修改图片插入后的大小" /><meta name="keywords" content='Hugo' /><meta itemprop="name" content="hugo主题修改(二)">
+<meta itemprop="description" content="记录图片的各种插入方式，同时修改图片插入后的大小"><meta itemprop="datePublished" content="2022-11-12T12:01:03+08:00" />
+<meta itemprop="dateModified" content="2022-11-22T17:23:13+08:00" />
+<meta itemprop="wordCount" content="887">
+<meta itemprop="keywords" content="Hugo," /><meta property="og:title" content="hugo主题修改(二)" />
+<meta property="og:description" content="记录图片的各种插入方式，同时修改图片插入后的大小" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/2022-1112-01/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-12T12:01:03+08:00" />
+<meta property="article:modified_time" content="2022-11-22T17:23:13+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="hugo主题修改(二)"/>
+<meta name="twitter:description" content="记录图片的各种插入方式，同时修改图片插入后的大小"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://example.org/posts/2022-1112-01/" /><link rel="prev" href="http://example.org/posts/2022-1111-01/" /><link rel="next" href="http://example.org/posts/2022-1122-01/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "hugo主题修改(二)",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/example.org\/posts\/2022-1112-01\/"
+    },"genre": "posts","keywords": "Hugo","wordcount":  887 ,
+    "url": "http:\/\/example.org\/posts\/2022-1112-01\/","datePublished": "2022-11-12T12:01:03+08:00","dateModified": "2022-11-22T17:23:13+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "作者"
+      },"description": "记录图片的各种插入方式，同时修改图片插入后的大小"
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="A_Yu&#39;s Blog"><span class="header-title-text">网络安全</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="A_Yu&#39;s Blog"><span class="header-title-text">网络安全</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container" data-page-style="narrow"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX">
+        <span>hugo主题修改(二)</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span>
+          <span class="post-category">收录于 <a href="/categories/hugo/"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Hugo</a></span></div>
+      <div class="post-meta-line"><span title=2022-11-12&#32;12:01:03><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-12">2022-11-12</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 887 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="featured-image"><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="/featuredImage/1.jpeg"
+    data-srcset="/featuredImage/1.jpeg, /featuredImage/1.jpeg 1.25x, /featuredImage/1.jpeg 1.25x"
+    data-sizes="auto"
+    alt="/featuredImage/1.jpeg"
+    title="记录图片的各种插入方式，同时修改图片插入后的大小"/></div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#图片的插入方式">图片的插入方式</a>
+      <ul>
+        <li><a href="#通过markdown格式插入">通过markdown格式插入</a></li>
+        <li><a href="#利用hugo内置shortcodes-figure插入">利用hugo内置Shortcodes figure插入</a></li>
+        <li><a href="#利用扩展shortcodes-image插入">利用扩展Shortcodes image插入</a></li>
+      </ul>
+    </li>
+    <li><a href="#关于图片大小">关于图片大小</a>
+      <ul>
+        <li><a href="#markdown格式插入的图片">markdown格式插入的图片</a></li>
+        <li><a href="#figure方式插入的图片">figure方式插入的图片</a></li>
+        <li><a href="#image方式插入的图片">image方式插入的图片</a></li>
+      </ul>
+    </li>
+    <li><a href="#修改图片的默认插入大小">修改图片的默认插入大小</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="图片的插入方式">图片的插入方式</h2>
+<h3 id="通过markdown格式插入">通过markdown格式插入</h3>
+<div class="details admonition tip open">
+    <div class="details-summary admonition-title">
+      <i class="icon fa-solid fa-lightbulb fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content">用<code>![1](1.png)</code>这种方式插入，图片是放在<code>content\posts</code>下与md文件同名的文件夹中的</div>
+    </div>
+  </div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">![<span class="nt">1</span>](<span class="na">1.png</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="1.png"
+    data-srcset="1.png, 1.png 1.25x, 1.png 1.25x"
+    data-sizes="auto"
+    alt="1"
+    title="1"/></p>
+<div class="details admonition tip open">
+    <div class="details-summary admonition-title">
+      <i class="icon fa-solid fa-lightbulb fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content">用<code>![1](/images/1.png)</code>这种方式插入，图片是放在<code>Blog\static\images</code>下</div>
+    </div>
+  </div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">![<span class="nt">1</span>](<span class="na">/images/1.png</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="/images/1.png"
+    data-srcset="/images/1.png, /images/1.png 1.25x, /images/1.png 1.25x"
+    data-sizes="auto"
+    alt="1"
+    title="1"/></p>
+<h3 id="利用hugo内置shortcodes-figure插入">利用hugo内置Shortcodes figure插入</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{<span class="p">&lt;</span> <span class="nt">figure</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;first.png&#34;</span> <span class="p">&gt;</span>}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><figure><img src="1.png"/>
+</figure>
+
+<h3 id="利用扩展shortcodes-image插入">利用扩展Shortcodes image插入</h3>
+<blockquote>
+<p><code>image</code> shortcode 是<code>figure</code>的代替，<code>image</code>可以充分利用 <a href="https://github.com/aFarkas/lazysizes"target="_blank" rel="external nofollow noopener noreferrer">lazysizes</a> 和 <a href="https://github.com/sachinchoolur/lightgallery"target="_blank" rel="external nofollow noopener noreferrer">lightgallery</a> 两个依赖库、</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{<span class="p">&lt;</span> <span class="nt">image</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;1.png&#34;</span> <span class="p">&gt;</span>}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><a class="lightgallery" href="1.png" data-thumbnail="1.png" data-sub-html="<h2>1.png</h2>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="1.png"
+      data-srcset="1.png, 1.png 1.25x, 1.png 1.25x"
+      data-sizes="auto"
+      alt="1.png"
+      title="1.png"/>
+  </a>
+<h2 id="关于图片大小">关于图片大小</h2>
+<h3 id="markdown格式插入的图片">markdown格式插入的图片</h3>
+<blockquote>
+<p>对于通过<code>![1](1.png)</code>这种方式插入的图片，我们无法更改图片的大小，并且插入后显示出来的图片比原图缩小50％</p>
+</blockquote>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221122130259535.png"
+    data-srcset="image-20221122130259535.png, image-20221122130259535.png 1.25x, image-20221122130259535.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221122130259535"
+    title="image-20221122130259535"/></p>
+<h3 id="figure方式插入的图片">figure方式插入的图片</h3>
+<blockquote>
+<p>对于<code>{{&lt; figure src=&quot;1.png&quot; &gt;}}</code>这种方式插入的图片，插入后图片大小保持不变</p>
+</blockquote>
+<figure><img src="image-20221122131148143.png"/>
+</figure>
+
+<div class="details admonition tip open">
+    <div class="details-summary admonition-title">
+      <i class="icon fa-solid fa-lightbulb fa-fw" aria-hidden="true"></i>技巧<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content">对于 {{&lt; figure src=&ldquo;1.png&rdquo; &gt;}} 这种方式插入的图片，我们可以通过figure自带的width属性来更改图片的大小</div>
+    </div>
+  </div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{<span class="p">&lt;</span> <span class="nt">figure</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;1.png&#34;</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;150px&#34;</span> <span class="p">&gt;</span>}} 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><figure><img src="1.png" width="150px"/>
+ </figure>
+
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{<span class="p">&lt;</span> <span class="nt">figure</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;1.png&#34;</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;10%&#34;</span> <span class="p">&gt;</span>}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><figure><img src="1.png" width="10%"/>
+</figure>
+
+<div class="details admonition tip">
+    <div class="details-summary admonition-title">
+      <i class="icon fa-solid fa-lightbulb fa-fw" aria-hidden="true"></i>关于width=“10%” 的理解<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content"><p>注意：这里的10％是相对于figure标签的大小，如下：</p>
+ <figure><img src="image-20221122164246421.png"/>
+ </figure>
+</div>
+    </div>
+  </div>
+<h3 id="image方式插入的图片">image方式插入的图片</h3>
+<blockquote>
+<p>对于 <code>{{&lt; image src=&quot;1.png&quot; &gt;}}</code>插入的图片，同<code>![1](1.png) </code>一样，插入后图片默认缩小一半，不过可以采用width来改变大小</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{<span class="p">&lt;</span> <span class="nt">image</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;1.png&#34;</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;10%&#34;</span> <span class="p">&gt;</span>}} 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><a class="lightgallery" href="1.png" data-thumbnail="1.png" data-sub-html="<h2>1.png</h2>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="1.png"
+      data-srcset="1.png, 1.png 1.25x, 1.png 1.25x"
+      data-sizes="auto"
+      alt="1.png"
+      title="1.png" width="10%" data-w/>
+  </a>
+<div class="details admonition tip">
+    <div class="details-summary admonition-title">
+      <i class="icon fa-solid fa-lightbulb fa-fw" aria-hidden="true"></i>与figure中width=“10%” 的区别<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content"><p>这里的10%是相对于整个页面的宽度800而言，如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221122165555297.png"
+    data-srcset="image-20221122165555297.png, image-20221122165555297.png 1.25x, image-20221122165555297.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221122165555297"
+    title="image-20221122165555297"/></p>
+</div>
+    </div>
+  </div>
+<h2 id="修改图片的默认插入大小">修改图片的默认插入大小</h2>
+<blockquote>
+<p>由于<code>![1](1.png)</code>方式和<code>{{&lt; image src=&quot;1.png&quot; &gt;}}</code>方式默认插入后的图片都会缩小一半，即图片大小÷2，对其进行修改，将其修改为插入图片大小变为原来大小的0.8即可，即图片大小÷1.25</p>
+</blockquote>
+<p>修改<code>Blog\themes\FixIt\layouts\partials\plugin\image.html</code>的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl">//对第39代码进行修改
+</span></span><span class="line"><span class="cl">data-srcset=&#34;{{ $small | safeURL }}, {{ $src | safeURL }} 1.5x, {{ $large | safeURL }} 2x&#34;
+</span></span><span class="line"><span class="cl">//修改为
+</span></span><span class="line"><span class="cl">data-srcset=&#34;{{ $small | safeURL }}, {{ $src | safeURL }} 1.25x, {{ $large | safeURL }} 1.25x&#34;
+</span></span><span class="line"><span class="cl">//对第54代码进行修改
+</span></span><span class="line"><span class="cl">data-srcset=&#34;{{ $small | safeURL }}, {{ $src | safeURL }} 1.5x, {{ $large | safeURL }} 2x&#34;
+</span></span><span class="line"><span class="cl">//修改为
+</span></span><span class="line"><span class="cl">data-srcset=&#34;{{ $small | safeURL }}, {{ $src | safeURL }} 1.25x, {{ $large | safeURL }} 1.25x&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{<span class="p">&lt;</span> <span class="nt">image</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;1.png&#34;</span> <span class="p">&gt;</span>}} 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><a class="lightgallery" href="1.png" data-thumbnail="1.png" data-sub-html="<h2>1.png</h2>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="1.png"
+      data-srcset="1.png, 1.png 1.25x, 1.png 1.25x"
+      data-sizes="auto"
+      alt="1.png"
+      title="1.png"/>
+  </a>
+<p>原图片大小为360，变为原来的0.8，恰好为288，如下：</p>
+<a class="lightgallery" href="image-20221122172228383.png" data-thumbnail="image-20221122172228383.png" data-sub-html="<h2>image-20221122172228383.png</h2>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="image-20221122172228383.png"
+      data-srcset="image-20221122172228383.png, image-20221122172228383.png 1.25x, image-20221122172228383.png 1.25x"
+      data-sizes="auto"
+      alt="image-20221122172228383.png"
+      title="image-20221122172228383.png"/>
+  </a></div><div class="post-reward">
+    <div class="comment"></div>
+    <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
+    <label class="reward-button" for="fi-reward">赞赏</label>
+    <div class="reward-ways"><div>
+            <img src="/images/alipay.gif" alt=" 支付宝">
+            <span data-animation>支付宝</span>
+          </div></div>
+  </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-11-22&#32;17:23:13>更新于 2022-11-22&nbsp;</span>
+      </div></div>
+    <div class="post-info-line">
+      <div class="post-info-md"></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/posts/2022-1112-01/" data-title="hugo主题修改(二)" data-hashtags="Hugo"><i class="fa-brands fa-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/posts/2022-1112-01/" data-title="hugo主题修改(二)" data-image="/featuredImage/1.jpeg"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/posts/2022-1112-01/" data-title="hugo主题修改(二)"><i class="fa-brands fa-evernote fa-fw" aria-hidden="true"></i></a>
+  </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/hugo/' class="post-tag">Hugo</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/2022-1111-01/" class="post-nav-item" rel="prev" title="Hugo主题修改(一)"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Hugo主题修改(一)</a>
+      <a href="/posts/2022-1122-01/" class="post-nav-item" rel="next" title="Linux权限提升">Linux权限提升<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line statistics"><span class="site-time" title='网站运行中 ...'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i>&nbsp;<span class="run-times">网站运行中 ...</span></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/lunr/lunr.min.js" defer></script><script src="/lib/lunr/lunr.stemmer.support.min.js" defer></script><script src="/lib/lunr/lunr.zh.min.js" defer></script><script src="/lib/lazysizes/lazysizes.min.js" async defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePangu":true,"lightgallery":true,"search":{"highlightTag":"em","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50},"siteTime":"2022-11-11T16:15:22+08:00"};</script><script src="/js/theme.min.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@2.1.3/dist/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+
+</body>
+</html>

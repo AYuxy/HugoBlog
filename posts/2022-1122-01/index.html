@@ -9,14 +9,14 @@
 <meta name="author-link" content="">
 <meta name="description" content="本文记录linux下常见的提权技术" /><meta name="keywords" content='linux提权' /><meta itemprop="name" content="Linux权限提升">
 <meta itemprop="description" content="本文记录linux下常见的提权技术"><meta itemprop="datePublished" content="2022-11-22T19:45:23+08:00" />
-<meta itemprop="dateModified" content="2022-12-01T17:17:00+08:00" />
-<meta itemprop="wordCount" content="2051">
+<meta itemprop="dateModified" content="2022-12-02T17:41:15+08:00" />
+<meta itemprop="wordCount" content="2948">
 <meta itemprop="keywords" content="linux提权," /><meta property="og:title" content="Linux权限提升" />
 <meta property="og:description" content="本文记录linux下常见的提权技术" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/posts/2022-1122-01/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-11-22T19:45:23+08:00" />
-<meta property="article:modified_time" content="2022-12-01T17:17:00+08:00" />
+<meta property="article:modified_time" content="2022-12-02T17:41:15+08:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux权限提升"/>
@@ -33,8 +33,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "http:\/\/example.org\/posts\/2022-1122-01\/"
-    },"genre": "posts","keywords": "linux提权","wordcount":  2051 ,
-    "url": "http:\/\/example.org\/posts\/2022-1122-01\/","datePublished": "2022-11-22T19:45:23+08:00","dateModified": "2022-12-01T17:17:00+08:00","publisher": {
+    },"genre": "posts","keywords": "linux提权","wordcount":  2948 ,
+    "url": "http:\/\/example.org\/posts\/2022-1122-01\/","datePublished": "2022-11-22T19:45:23+08:00","dateModified": "2022-12-02T17:41:15+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -152,7 +152,7 @@
       <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
       </span></span>
           <span class="post-category">收录于 <a href="/categories/%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 权限提升</a></span></div>
-      <div class="post-meta-line"><span title=2022-11-22&#32;19:45:23><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-22">2022-11-22</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 2051 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 5 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span title=2022-11-22&#32;19:45:23><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-22">2022-11-22</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 2948 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 6 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -170,9 +170,15 @@
           </ul>
         </li>
         <li><a href="#suid实例分析">SUID实例分析</a></li>
+        <li><a href="#对于常用函数setuid0的说明">对于常用函数setuid(0)的说明</a></li>
       </ul>
     </li>
-    <li><a href="#劫持环境变量提权">劫持环境变量提权</a></li>
+    <li><a href="#劫持环境变量提权">劫持环境变量提权</a>
+      <ul>
+        <li><a href="#常用环境变量-path">常用环境变量 <code>PATH</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#ssh密钥提权">SSH密钥提权</a></li>
   </ul>
 </nav></div>
       </div><div class="content" id="content"><h2 id="suid提权">SUID提权</h2>
@@ -465,8 +471,134 @@
     data-sizes="auto"
     alt="image-20221129225741298"
     title="image-20221129225741298"/></p>
+<h3 id="对于常用函数setuid0的说明">对于常用函数setuid(0)的说明</h3>
+<p>setuid()用来重新设置执行目前进程的用户识别码。不过，要让此函数有作用，其有效的用户识别码必须为0(root)</p>
+<p>在Linux下，当root 使用setuid()来变换成其他用户识别码时，root权限会被抛弃，完全转换成该用户身份，也就是说，该进程往后将不再具有可setuid()的权 利，如果只是向暂时抛弃root 权限，稍后想重新取回权限，则必须使用seteuid()</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221202172119886.png"
+    data-srcset="image-20221202172119886.png, image-20221202172119886.png 1.25x, image-20221202172119886.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221202172119886"
+    title="image-20221202172119886"/></p>
 <h2 id="劫持环境变量提权">劫持环境变量提权</h2>
-<p>的撒阿<code>斯顿的</code>撒大事</p></div><div class="post-reward">
+<p>变量是计算机系统用于保存可变值的数据类型，我们可以直接通过变量名称来提取到对应的变量值。在 Linux 系统中，环境变量是用来定义系统运行环境的一些参数</p>
+<p>环境变量的分类如下：</p>
+<ul>
+<li>
+<p>按生命周期分：</p>
+<ul>
+<li>永久的：在环境变量脚本文件中配置，用户每次登录时会自动执行这些脚本，相当于永久生效</li>
+<li>临时的：用户利用export命令，在当前终端下声明环境变量，关闭Shell终端失效</li>
+</ul>
+</li>
+<li>
+<p>按作用域分：</p>
+<ul>
+<li>系统环境变量：公共的，对全部的用户都生效</li>
+<li>用户环境变量：用户私有的、自定义的个性化设置，只对该用户生效</li>
+</ul>
+</li>
+</ul>
+<p>环境变量相关的常用命令如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">env：查看当前用户全部的环境变量
+</span></span><span class="line"><span class="cl">env<span class="p">|</span>grep 环境变量名：筛选包含的环境变量
+</span></span><span class="line"><span class="cl">export：显示当前系统定义的所有环境变量
+</span></span><span class="line"><span class="cl">printenv 环境变量名：查看指定环境变量的值
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> $环境变量名：查看指定环境变量的值
+</span></span><span class="line"><span class="cl"><span class="nb">unset</span> 环境变量名：清除指定环境变量
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="常用环境变量-path">常用环境变量 <code>PATH</code></h3>
+<p>PATH是Linux和类Unix操作系统中的环境变量，它指定存储可执行程序的所有bin和sbin目录。当用户在终端上执行任何命令时，它会通过PATH变量来响应用户执行的命令，并向shell发送请求以搜索可执行文件。超级用户通常还具有/sbin和/usr/sbin条目，以便于系统管理命令的执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>lisa@XXYhost ~<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$PATH</span>
+</span></span><span class="line"><span class="cl">/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/lisa/.local/bin:/home/lisa/bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 说明：</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 冒号为分隔符，在Windows上的PATH环境变量用分号做分隔符</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="details admonition quote">
+    <div class="details-summary admonition-title">
+      <i class="icon fa-solid fa-quote-right fa-fw" aria-hidden="true"></i>PATH提权Demo<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content"><p>查找具有SUID权限 的二进制可执行文件，发现可以shell文件</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221202172738385.png"
+    data-srcset="image-20221202172738385.png, image-20221202172738385.png 1.25x, image-20221202172738385.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221202172738385"
+    title="image-20221202172738385"/></p>
+<p>然后用xxd或strings来分析该文件，执行xxd shell后，发现了ps命令</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221202173407658.png"
+    data-srcset="image-20221202173407658.png, image-20221202173407658.png 1.25x, image-20221202173407658.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221202173407658"
+    title="image-20221202173407658"/></p>
+<p>然后进行提权</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221202173708354.png"
+    data-srcset="image-20221202173708354.png, image-20221202173708354.png 1.25x, image-20221202173708354.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221202173708354"
+    title="image-20221202173708354"/></p>
+<p>注意：其实二进制文件shell是由shell.c编译而来，shell.c源码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">setuid</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">setgid</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">system</span><span class="p">(</span><span class="s">&#34;ps&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div>
+    </div>
+  </div>
+<h2 id="ssh密钥提权">SSH密钥提权</h2></div><div class="post-reward">
     <div class="comment"></div>
     <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
     <label class="reward-button" for="fi-reward">赞赏</label>
@@ -478,7 +610,7 @@
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title=2022-12-01&#32;17:17:00>更新于 2022-12-01&nbsp;</span>
+        <span title=2022-12-02&#32;17:41:15>更新于 2022-12-02&nbsp;</span>
       </div></div>
     <div class="post-info-line">
       <div class="post-info-md"></div>

@@ -9,7 +9,7 @@
   <pubDate>Tue, 22 Nov 2022 19:45:23 &#43;0800</pubDate>
   <author>作者</author>
   <guid>http://example.org/posts/2022-1122-01/</guid>
-  <description><![CDATA[本文记录linux下常见的提权技术]]></description>
+  <description><![CDATA[总结linux下常见的提权技术，持续补充各种提权的姿势]]></description>
 </item>
 </channel>
 </rss>

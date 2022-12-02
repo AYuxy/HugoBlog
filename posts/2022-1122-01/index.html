@@ -7,20 +7,20 @@
     <meta name="robots" content="noodp" />
     <title>Linux权限提升 - A_Yu&#39;s Blog</title><meta name="author" content="">
 <meta name="author-link" content="">
-<meta name="description" content="本文记录linux下常见的提权技术" /><meta name="keywords" content='linux提权' /><meta itemprop="name" content="Linux权限提升">
-<meta itemprop="description" content="本文记录linux下常见的提权技术"><meta itemprop="datePublished" content="2022-11-22T19:45:23+08:00" />
-<meta itemprop="dateModified" content="2022-12-02T17:41:15+08:00" />
-<meta itemprop="wordCount" content="2948">
+<meta name="description" content="总结linux下常见的提权技术，持续补充各种提权的姿势" /><meta name="keywords" content='linux提权' /><meta itemprop="name" content="Linux权限提升">
+<meta itemprop="description" content="总结linux下常见的提权技术，持续补充各种提权的姿势"><meta itemprop="datePublished" content="2022-11-22T19:45:23+08:00" />
+<meta itemprop="dateModified" content="2022-12-02T22:45:27+08:00" />
+<meta itemprop="wordCount" content="3303">
 <meta itemprop="keywords" content="linux提权," /><meta property="og:title" content="Linux权限提升" />
-<meta property="og:description" content="本文记录linux下常见的提权技术" />
+<meta property="og:description" content="总结linux下常见的提权技术，持续补充各种提权的姿势" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/posts/2022-1122-01/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-11-22T19:45:23+08:00" />
-<meta property="article:modified_time" content="2022-12-02T17:41:15+08:00" />
+<meta property="article:modified_time" content="2022-12-02T22:45:27+08:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux权限提升"/>
-<meta name="twitter:description" content="本文记录linux下常见的提权技术"/>
+<meta name="twitter:description" content="总结linux下常见的提权技术，持续补充各种提权的姿势"/>
 <meta name="application-name" content="FixIt">
 <meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -33,13 +33,13 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "http:\/\/example.org\/posts\/2022-1122-01\/"
-    },"genre": "posts","keywords": "linux提权","wordcount":  2948 ,
-    "url": "http:\/\/example.org\/posts\/2022-1122-01\/","datePublished": "2022-11-22T19:45:23+08:00","dateModified": "2022-12-02T17:41:15+08:00","publisher": {
+    },"genre": "posts","keywords": "linux提权","wordcount":  3303 ,
+    "url": "http:\/\/example.org\/posts\/2022-1122-01\/","datePublished": "2022-11-22T19:45:23+08:00","dateModified": "2022-12-02T22:45:27+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
         "name": "作者"
-      },"description": "本文记录linux下常见的提权技术"
+      },"description": "总结linux下常见的提权技术，持续补充各种提权的姿势"
   }
   </script></head>
   <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper"><header class="desktop animate__faster" id="header-desktop">
@@ -152,7 +152,7 @@
       <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
       </span></span>
           <span class="post-category">收录于 <a href="/categories/%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 权限提升</a></span></div>
-      <div class="post-meta-line"><span title=2022-11-22&#32;19:45:23><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-22">2022-11-22</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 2948 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 6 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span title=2022-11-22&#32;19:45:23><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-22">2022-11-22</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 3303 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 7 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -178,7 +178,31 @@
         <li><a href="#常用环境变量-path">常用环境变量 <code>PATH</code></a></li>
       </ul>
     </li>
-    <li><a href="#ssh密钥提权">SSH密钥提权</a></li>
+    <li><a href="#sudo提权">Sudo提权</a></li>
+    <li><a href="#ssh密钥提权">Ssh密钥提权</a></li>
+    <li><a href="#passwd提权">Passwd提权</a></li>
+    <li><a href="#计划任务提权">计划任务提权</a></li>
+    <li><a href="#第三方-组件服务-提权">第三方 <code>组件/服务</code> 提权</a>
+      <ul>
+        <li><a href="#nfs提权">NFS提权</a></li>
+        <li><a href="#mof提权">MOF提权</a></li>
+        <li><a href="#启动项提权">启动项提权</a></li>
+        <li><a href="#反弹端口提权">反弹端口提权</a></li>
+        <li><a href="#mysql提权">Mysql提权</a>
+          <ul>
+            <li><a href="#cve-2016-6663cve-2016-6664提权">CVE-2016-6663、CVE-2016-6664提权</a></li>
+          </ul>
+        </li>
+        <li><a href="#docker提权">Docker提权</a></li>
+      </ul>
+    </li>
+    <li><a href="#内核漏洞提权">内核漏洞提权</a>
+      <ul>
+        <li><a href="#dirtycowcve-2016-5195">DirtyCow（CVE-2016-5195）</a></li>
+        <li><a href="#dirtypipecve-2022-0847">DirtyPipe（CVE-2022-0847)）</a></li>
+      </ul>
+    </li>
+    <li><a href="#polkit提权">Polkit提权</a></li>
   </ul>
 </nav></div>
       </div><div class="content" id="content"><h2 id="suid提权">SUID提权</h2>
@@ -325,7 +349,7 @@
     alt="image-20221129202908954"
     title="image-20221129202908954"/></p>
 <h4 id="分类">分类</h4>
-<p>值得注	意的是，以下的分类都是针对进程而言的，只有进程才会有下述几种ID</p>
+<p>值得注意的是，以下的分类都是针对进程而言的，只有进程才会有下述几种ID</p>
 <table>
 <thead>
 <tr>
@@ -598,7 +622,36 @@
 </div></div>
     </div>
   </div>
-<h2 id="ssh密钥提权">SSH密钥提权</h2></div><div class="post-reward">
+<h2 id="sudo提权">Sudo提权</h2>
+<blockquote>
+<p>参考：<a href="https://www.cnblogs.com/vir-k/p/16301456.html#"target="_blank" rel="external nofollow noopener noreferrer">sudo提权—Vir-k</a></p>
+</blockquote>
+<p>sudo是linux系统管理指令，是允许系统管理员让普通用户执行一些或者全部的root命令的一个工具</p>
+<p>并非每个用户都可以使用sudo命令，如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221202210419397.png"
+    data-srcset="image-20221202210419397.png, image-20221202210419397.png 1.25x, image-20221202210419397.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221202210419397"
+    title="image-20221202210419397"/></p>
+<p>要想让一个用户能够执行sudo命令，需要让root用户把这个用户的名字、可以执行的特定命令、按照哪种用户或用户组的身份执行等信息注册到/etc/sudokers文件中，即完成对该用户的授权（此时该用户称为suoder）才可以</p>
+<h2 id="ssh密钥提权">Ssh密钥提权</h2>
+<h2 id="passwd提权">Passwd提权</h2>
+<h2 id="计划任务提权">计划任务提权</h2>
+<h2 id="第三方-组件服务-提权">第三方 <code>组件/服务</code> 提权</h2>
+<h3 id="nfs提权">NFS提权</h3>
+<h3 id="mof提权">MOF提权</h3>
+<h3 id="启动项提权">启动项提权</h3>
+<h3 id="反弹端口提权">反弹端口提权</h3>
+<h3 id="mysql提权">Mysql提权</h3>
+<h4 id="cve-2016-6663cve-2016-6664提权">CVE-2016-6663、CVE-2016-6664提权</h4>
+<h3 id="docker提权">Docker提权</h3>
+<h2 id="内核漏洞提权">内核漏洞提权</h2>
+<h3 id="dirtycowcve-2016-5195">DirtyCow（CVE-2016-5195）</h3>
+<h3 id="dirtypipecve-2022-0847">DirtyPipe（CVE-2022-0847)）</h3>
+<h2 id="polkit提权">Polkit提权</h2></div><div class="post-reward">
     <div class="comment"></div>
     <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
     <label class="reward-button" for="fi-reward">赞赏</label>
@@ -610,7 +663,7 @@
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title=2022-12-02&#32;17:41:15>更新于 2022-12-02&nbsp;</span>
+        <span title=2022-12-02&#32;22:45:27>更新于 2022-12-02&nbsp;</span>
       </div></div>
     <div class="post-info-line">
       <div class="post-info-md"></div>

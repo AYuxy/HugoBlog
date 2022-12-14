@@ -9,14 +9,14 @@
 <meta name="author-link" content="">
 <meta name="description" content="总结linux下常见的提权技术，持续补充各种提权的姿势" /><meta name="keywords" content='linux提权' /><meta itemprop="name" content="Linux权限提升">
 <meta itemprop="description" content="总结linux下常见的提权技术，持续补充各种提权的姿势"><meta itemprop="datePublished" content="2022-11-22T19:45:23+08:00" />
-<meta itemprop="dateModified" content="2022-12-04T23:51:38+08:00" />
-<meta itemprop="wordCount" content="3779">
+<meta itemprop="dateModified" content="2022-12-07T19:48:23+08:00" />
+<meta itemprop="wordCount" content="4344">
 <meta itemprop="keywords" content="linux提权," /><meta property="og:title" content="Linux权限提升" />
 <meta property="og:description" content="总结linux下常见的提权技术，持续补充各种提权的姿势" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/posts/2022-1122-01/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-11-22T19:45:23+08:00" />
-<meta property="article:modified_time" content="2022-12-04T23:51:38+08:00" />
+<meta property="article:modified_time" content="2022-12-07T19:48:23+08:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux权限提升"/>
@@ -24,7 +24,7 @@
 <meta name="application-name" content="FixIt">
 <meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://example.org/posts/2022-1122-01/" /><link rel="prev" href="http://example.org/posts/2022-1112-01/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://example.org/posts/2022-1122-01/" /><link rel="prev" href="http://example.org/posts/2022-1112-01/" /><link rel="next" href="http://example.org/posts/2022-1207-01/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
   {
     "@context": "http://schema.org",
     "@type": "BlogPosting",
@@ -33,8 +33,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "http:\/\/example.org\/posts\/2022-1122-01\/"
-    },"genre": "posts","keywords": "linux提权","wordcount":  3779 ,
-    "url": "http:\/\/example.org\/posts\/2022-1122-01\/","datePublished": "2022-11-22T19:45:23+08:00","dateModified": "2022-12-04T23:51:38+08:00","publisher": {
+    },"genre": "posts","keywords": "linux提权","wordcount":  4344 ,
+    "url": "http:\/\/example.org\/posts\/2022-1122-01\/","datePublished": "2022-11-22T19:45:23+08:00","dateModified": "2022-12-07T19:48:23+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -152,7 +152,7 @@
       <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
       </span></span>
           <span class="post-category">收录于 <a href="/categories/%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 权限提升</a></span></div>
-      <div class="post-meta-line"><span title=2022-11-22&#32;19:45:23><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-22">2022-11-22</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 3779 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 8 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span title=2022-11-22&#32;19:45:23><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-22">2022-11-22</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 4344 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 9 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -187,7 +187,7 @@
       </ul>
     </li>
     <li><a href="#ssh密钥提权">Ssh密钥提权</a></li>
-    <li><a href="#passwd提权">Passwd提权</a></li>
+    <li><a href="#可写的passwd提权">可写的Passwd提权</a></li>
     <li><a href="#计划任务提权">计划任务提权</a></li>
     <li><a href="#第三方-组件服务-提权">第三方 <code>组件/服务</code> 提权</a>
       <ul>
@@ -758,7 +758,46 @@
 </div><h3 id="可sudo提权的命令">可sudo提权的命令</h3>
 <p>wget、find、cat、apt、zip、xxd、time、taskset、git、sed、pip、ed、tmux、scp、perl、bash、less、awk、man、vi、env、ftp、ed、screen</p>
 <h2 id="ssh密钥提权">Ssh密钥提权</h2>
-<h2 id="passwd提权">Passwd提权</h2>
+<p>运维人员如果在服务器上使用ssh-keygen命令生成密钥对（id_rsa、id_rsa.pub），然后采用此密钥对进行远程登录，那么当他忘记把私钥（id_rsa）删除，且文件权限可读，黑客就可以使用这个私钥进行用户登录，达到用户水平越权或者权限提升到root</p>
+<p>Ssh登陆的大致流程：</p>
+<ul>
+<li>ServerA
+<ul>
+<li>在ServerA上生成一对密钥id_rsa、id_rsa.pub</li>
+<li>将公钥（id_rsa.pub）拷贝给ServerB，并且重命名为authorized_keys</li>
+<li>ServerA向ServerB发送一个连接请求</li>
+</ul>
+</li>
+<li>ServerB
+<ul>
+<li>ServerB收到ServerA的请求后，ServerB会随机生成一个字符串，假如这个字符串是asdf</li>
+<li>ServerB使用公钥authorized_keys对字符串asdf进行加密，然后发送给ServerA</li>
+</ul>
+</li>
+<li>ServerA
+<ul>
+<li>ServerA收到ServerB发来的加密字符串后，会使用私钥id_rsa对字符串进行解密，然后将解密后的字符串再发送给B</li>
+</ul>
+</li>
+<li>ServerB
+<ul>
+<li>接受到解密后的字符串后，会与先前随机生成的字符串asdf进行对比，如果一致，就允许免密登陆</li>
+</ul>
+</li>
+</ul>
+<p>如果我们能够拿到root用户对应密钥对，就可通过ssh登陆到root用户</p>
+<h2 id="可写的passwd提权">可写的Passwd提权</h2>
+<div class="details admonition quote">
+    <div class="details-summary admonition-title">
+      <i class="icon fa-solid fa-quote-right fa-fw" aria-hidden="true"></i>/etc/passwd文件格式<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content"><p>文件格式为如下：</p>
+<p>用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell</p>
+<p>root : x : 0 : 0 : root : /root : /bin/bash</p>
+</div>
+    </div>
+  </div>
 <h2 id="计划任务提权">计划任务提权</h2>
 <h2 id="第三方-组件服务-提权">第三方 <code>组件/服务</code> 提权</h2>
 <h3 id="nfs提权">NFS提权</h3>
@@ -783,7 +822,7 @@
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title=2022-12-04&#32;23:51:38>更新于 2022-12-04&nbsp;</span>
+        <span title=2022-12-07&#32;19:48:23>更新于 2022-12-07&nbsp;</span>
       </div></div>
     <div class="post-info-line">
       <div class="post-info-md"></div>
@@ -803,7 +842,8 @@
     </section>
   </div>
 
-  <div class="post-nav"><a href="/posts/2022-1112-01/" class="post-nav-item" rel="prev" title="hugo主题修改(二)"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>hugo主题修改(二)</a></div>
+  <div class="post-nav"><a href="/posts/2022-1112-01/" class="post-nav-item" rel="prev" title="hugo主题修改(二)"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>hugo主题修改(二)</a>
+      <a href="/posts/2022-1207-01/" class="post-nav-item" rel="next" title="深入理解 Kerberos 协议 (上)">深入理解 Kerberos 协议 (上)<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></main><footer class="footer">
     <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
@@ -815,7 +855,7 @@
         </div></div><div id="mask"></div><noscript>
     <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
   </noscript>
-</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/lunr/lunr.min.js" defer></script><script src="/lib/lunr/lunr.stemmer.support.min.js" defer></script><script src="/lib/lunr/lunr.zh.min.js" defer></script><script src="/lib/lazysizes/lazysizes.min.js" async defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePangu":true,"lightgallery":true,"search":{"highlightTag":"em","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50},"siteTime":"2022-11-11T16:15:22+08:00"};</script><script src="/js/theme.min.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@2.1.3/dist/jquery.min.js"></script>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/lunr/lunr.min.js" defer></script><script src="/lib/lunr/lunr.stemmer.support.min.js" defer></script><script src="/lib/lunr/lunr.zh.min.js" defer></script><script src="/lib/lazysizes/lazysizes.min.js" async defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"lightgallery":true,"search":{"highlightTag":"em","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50},"siteTime":"2022-11-11T16:15:22+08:00"};</script><script src="/js/theme.min.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@2.1.3/dist/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
 

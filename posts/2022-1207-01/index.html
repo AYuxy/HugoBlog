@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>深入理解 Kerberos 协议 (上) - A_Yu&#39;s Blog</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="借助一些文章深入理解 kerberos 协议，如果理解有误，欢迎指正" /><meta name="keywords" content='协议' /><meta itemprop="name" content="深入理解 Kerberos 协议 (上)">
+<meta itemprop="description" content="借助一些文章深入理解 kerberos 协议，如果理解有误，欢迎指正"><meta itemprop="datePublished" content="2022-12-07T20:39:21+08:00" />
+<meta itemprop="dateModified" content="2022-12-14T10:01:36+08:00" />
+<meta itemprop="wordCount" content="2353">
+<meta itemprop="keywords" content="协议," /><meta property="og:title" content="深入理解 Kerberos 协议 (上)" />
+<meta property="og:description" content="借助一些文章深入理解 kerberos 协议，如果理解有误，欢迎指正" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/2022-1207-01/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-07T20:39:21+08:00" />
+<meta property="article:modified_time" content="2022-12-14T10:01:36+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="深入理解 Kerberos 协议 (上)"/>
+<meta name="twitter:description" content="借助一些文章深入理解 kerberos 协议，如果理解有误，欢迎指正"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://example.org/posts/2022-1207-01/" /><link rel="prev" href="http://example.org/posts/2022-1122-01/" /><link rel="next" href="http://example.org/posts/2022-1212-01/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "深入理解 Kerberos 协议 (上)",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/example.org\/posts\/2022-1207-01\/"
+    },"genre": "posts","keywords": "协议","wordcount":  2353 ,
+    "url": "http:\/\/example.org\/posts\/2022-1207-01\/","datePublished": "2022-12-07T20:39:21+08:00","dateModified": "2022-12-14T10:01:36+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "作者"
+      },"description": "借助一些文章深入理解 kerberos 协议，如果理解有误，欢迎指正"
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="A_Yu&#39;s Blog"><span class="header-title-text">网络安全</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="A_Yu&#39;s Blog"><span class="header-title-text">网络安全</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container" data-page-style="narrow"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX">
+        <span>深入理解 Kerberos 协议 (上)</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span>
+          <span class="post-category">收录于 <a href="/categories/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8/"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 内网安全</a></span></div>
+      <div class="post-meta-line"><span title=2022-12-07&#32;20:39:21><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-12-07">2022-12-07</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 2353 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#kerberos-过程详解">Kerberos 过程详解</a>
+      <ul>
+        <li><a href="#用户登陆">用户登陆</a></li>
+        <li><a href="#请求身份认证">请求身份认证</a>
+          <ul>
+            <li><a href="#1-客户端向-as-发送认证请求">1) 客户端向 AS 发送认证请求</a></li>
+            <li><a href="#2-as-确认-client-端登陆者用户身份">2) AS 确认 Client 端登陆者用户身份</a></li>
+          </ul>
+        </li>
+        <li><a href="#请求服务授权">请求服务授权</a>
+          <ul>
+            <li><a href="#1-客户端向-tgs-发送请求服务授权的请求">1) 客户端向 TGS 发送请求服务授权的请求</a></li>
+            <li><a href="#2-tgs-为-client-响应服务授权票据">2) TGS 为 Client 响应服务授权票据</a></li>
+          </ul>
+        </li>
+        <li><a href="#发送服务请求">发送服务请求</a>
+          <ul>
+            <li><a href="#1-client-向-service-server-发送服务请求">1) Client 向 Service Server 发送服务请求</a></li>
+            <li><a href="#2-service-server-响应-client">2) Service Server 响应 Client</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#kerberos-协议抓包分析">Kerberos 协议抓包分析</a></li>
+    <li><a href="#参考文章">参考文章</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="kerberos-过程详解">Kerberos 过程详解</h2>
+<p>Kerberos 协议通过密钥系统为客户端与服务提供认证服务，为了解决当客户端去访问一个服务器的某服务时，服务器如何判断该对象是否有相关权限来访问自己的服务</p>
+<p>客户端用户 A 登陆域成员机，然后访问某个服务，这个过程就涉及到了 kerberos 协议</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221208230115006.png"
+    data-srcset="image-20221208230115006.png, image-20221208230115006.png 1.25x, image-20221208230115006.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221208230115006"
+    title="image-20221208230115006"/></p>
+<p>简单来说，kerberos 协议的整个过程如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221207215306938.png"
+    data-srcset="image-20221207215306938.png, image-20221207215306938.png 1.25x, image-20221207215306938.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221207215306938"
+    title="image-20221207215306938"/></p>
+<ol>
+<li>
+<p>Client 向 KDC 发起 AS_REQ，请求的凭据是 Client hash 加密的时间戳</p>
+</li>
+<li>
+<p>KDC 使用 Client hash 进行解密，如果结果正确就返回用 krbtgt hash 加密的 TGT 票据，TGT 里面包含 PAC，PAC 包含 Client 的 sid、Client 所在的组</p>
+</li>
+<li>
+<p>Client 凭借 TGT 票据向 KDC 发起针对特定服务的 TGS_REQ 请求</p>
+</li>
+<li>
+<p>KDC 使用 krbtgt hash 进行解密，如果结果正确，就返回用服务 hash 加密的 TGS 票据（这一步不管用户有没有访问服务的权限，只要TGT正确，就返回TGS票据）</p>
+</li>
+<li>
+<p>Client 拿着 TGS 票据去请求服务</p>
+</li>
+<li>
+<p>服务使用自己的 hash 解密 TGS 票据。如果解密正确，就拿着 PAC 去 KDC 那边问 Client 有没有访问权限。域控解密PAC，获取 Client 的 sid、以及所在的组，再根据该服务的 ACL，判断 Client 是否有访问服务的权限</p>
+</li>
+</ol>
+<p>下面详解上面的 登陆、认证、授权、请求服务 这四个步骤</p>
+<h3 id="用户登陆">用户登陆</h3>
+<p>用户A在登陆阶段，会输入  <span style="color:green"> [用户名][密码]</span> ，并且用户 A 输入的 <span style="color:green"> [密码]</span> 会通过一个单向的<span style="color:pink"> Hash 函数 </span> 生成一个 <span style="color:brown"> [Client密钥]</span>，更准确的说，这个  <span style="color:brown"> [Client密钥]</span> 也被称为 <span style="color:orange"> [Client Hash]</span></p>
+<h3 id="请求身份认证">请求身份认证</h3>
+<h4 id="1-客户端向-as-发送认证请求">1) 客户端向 AS 发送认证请求</h4>
+<p>客户端为执行登陆操作的用户A向 AS 发送 AS-REQ 请求，请求中带有  <span style="color:brown"> [Client密钥]</span>  加密的<span style="color:red"> 时间戳</span> 、<span style="color:green"> [用户名]</span> 等信息</p>
+<h4 id="2-as-确认-client-端登陆者用户身份">2) AS 确认 Client 端登陆者用户身份</h4>
+<p>AS 收到用户A的认证请求后，AS 会生成一个 <span style="color:gray"> [SessionKey_AS]</span>，然后根据请求中带有的  <span style="color:green"> [用户名]</span>  信息，从域控的活动目录 AD 中查询该  <span style="color:green"> [用户名]</span>   是否存在，如果存在，那么 AS 还会从活动目录中取出 <span style="color:green"> [用户名]</span>  对应的 <span style="color:green"> [密码]</span>，然后 AS 让取出的  <span style="color:green"> [密码]</span> 通过相同的单向 <span style="color:pink"> Hash 函数 </span>  生成一个密钥 ，然后用这个密钥来解密<span style="color:red"> 时间戳</span>，如果解密成功，则身份验证通过，AS 为 Client 响应如下信息：</p>
+<ul>
+<li>
+<p>用  <span style="color:brown"> [Client密钥]</span>  加密的  <span style="color:gray"> [SessionKey_AS]</span></p>
+</li>
+<li>
+<p>用 krbtgt hash 加密 <span style="color:gray"> [SessionKey_AS]</span> 、<span style="color:blue"> Client ID</span> 、Ticket 有效时间 、Client 网络地址而生成的 <span style="color:Cyan"> TGT票据 </span> （注：Ticket 有效时间即指票据的有效时间，这里票据是TGT，所以 Ticket 有效时间 即为 TGT票据的有效时间）</p>
+</li>
+</ul>
+<h3 id="请求服务授权">请求服务授权</h3>
+<h4 id="1-客户端向-tgs-发送请求服务授权的请求">1) 客户端向 TGS 发送请求服务授权的请求</h4>
+<p>Client 收到 AS 响应的信息后，用 <span style="color:brown"> [Client密钥]</span> 解密 <span class="bolangxian"> 用  <span style="color:brown"> [Client密钥]</span>  加密的  <span style="color:gray"> [SessionKey_AS]</span></span> ，获得  <span style="color:gray"> [SessionKey_AS]</span>  ，但 Client 无法解密  <span style="color:Cyan"> TGT票据</span> ，最终会在本地缓存 <span style="color:gray"> [SessionKey_AS]</span> 和  <span style="color:Cyan"> TGT票据 </span> 。</p>
+<p>然后 Client 凭借 <span style="color:Cyan"> TGT票据 </span>向 KDC 发起针对特定 <span style="color:purple"> 服务S </span>  的 TGS_REQ 请求，请求中带有如下信息：</p>
+<ul>
+<li>
+<p>由 AS 为 Client 提供的 <span style="color:Cyan"> TGT票据 </span> ，要请求的 <span style="color:purple"> 服务S </span> 的 ID ，即 <span style="color:purple">  [Service ID] </span></p>
+</li>
+<li>
+<p>用<span style="color:gray"> [SessionKey_AS]</span> 加密的 <span style="color:blue"> Client ID</span> 和 <span style="color:red"> 时间戳</span></p>
+</li>
+</ul>
+<h4 id="2-tgs-为-client-响应服务授权票据">2) TGS 为 Client 响应服务授权票据</h4>
+<p>TGS 收到 Client 请求后，用 krbtgt hash 解密 <span style="color:Cyan"> TGT票据 </span> 得到 <span style="color:gray"> [SessionKey_AS]</span> 、<span style="color:blue"> Client ID</span> 、Ticket 有效时间 、Client 网络地址，并用 <span style="color:gray"> [SessionKey_AS]</span> 解密 <span class="bolangxian">用<span style="color:gray"> [SessionKey_AS]</span> 加密的 <span style="color:blue"> Client ID</span> 和 <span style="color:red"> 时间戳</span></span> 得到<span style="color:red"> 时间戳</span> 和 <span style="color:blue"> Client ID</span></p>
+<p>然后 TGS 会比对 <span style="color:red"> 时间戳</span> 和 Ticket 有效时间，如果两者和当前时间相差太远，则存在暴力枚举的可能，需要重新认证，并且还会对比解密出的两个 <span style="color:blue"> Client ID</span> ，如果相同，则认证成功</p>
+<p>认证成功后，TGS 会生成一个 <span style="color:#eb14a0"> [SessionKey_TGS] </span>，并响应 Client 如下信息：</p>
+<ul>
+<li>
+<p>用 <span style="color:#dcbdfb"> [Service密钥] </span> 加密  <span style="color:#eb14a0"> [SessionKey_TGS] </span>、Ticket 有效时间、<span style="color:blue"> Client ID</span>、Client 网络地址而生成的 <span style="color:#287888"> TGS票据 </span> （TGS 票据也被称为 ST 票据）</p>
+</li>
+<li>
+<p>用 <span style="color:gray"> [SessionKey_AS]</span> 加密的  <span style="color:#a27804"> [SessionKey_TGS] </span></p>
+</li>
+</ul>
+<p>补充： <span style="color:#dcbdfb"> [Service密钥] </span>  是啥 ？</p>
+<blockquote>
+<p>搜索自chatgpt</p>
+</blockquote>
+<p>在 Kerberos 协议中，[Service密钥] 是由网络服务提供方和 TGS 服务器共同维护的一个秘密密钥。它用于对通信内容进行加密，以保护通信内容不被第三方窃取。</p>
+<p>[Service密钥] 通常并不是由一个字符串通过 hash 函数加密生成的，而是一个二进制密钥</p>
+<h3 id="发送服务请求">发送服务请求</h3>
+<h4 id="1-client-向-service-server-发送服务请求">1) Client 向 Service Server 发送服务请求</h4>
+<p>Client 收到 TGS 的响应信息后，得到了 <span style="color:#287888"> TGS票据 </span> 和 <span class="bolangxian">用 <span style="color:gray"> [SessionKey_AS]</span> 加密的  <span style="color:#a27804"> [SessionKey_TGS]</span></span></p>
+<p>首先，Client 用本地缓存的<span style="color:gray"> [SessionKey_AS] </span>解密 <span class="bolangxian">用 <span style="color:gray"> [SessionKey_AS]</span> 加密的  <span style="color:#a27804"> [SessionKey_TGS]</span></span> 得到 <span style="color:#a27804"> [SessionKey_TGS]</span>，并且将 <span style="color:#287888"> TGS票据 </span> 和  <span style="color:#a27804"> [SessionKey_TGS]</span> 缓存到本地</p>
+<p>然后，Client 凭借  <span style="color:#287888"> TGS票据 </span> 去请求 Service Server 上面的 <span style="color:purple"> 服务S </span> ，请求中带包含下信息：</p>
+<ul>
+<li>
+<span style="color:#287888"> TGS票据 </span>
+</li>
+<li>
+<p>用 <span style="color:#a27804"> [SessionKey_TGS]</span>  加密的 <span style="color:blue"> Client ID</span> 、<span style="color:red"> 时间戳</span></p>
+</li>
+</ul>
+<h4 id="2-service-server-响应-client">2) Service Server 响应 Client</h4>
+<p>Service Server 收到 Client 的请求后，先利用自身的  <span style="color:#dcbdfb"> [Service密钥] </span> 解密 <span style="color:#287888"> TGS票据 </span> 得到  <span style="color:#eb14a0"> [SessionKey_TGS] </span>、Ticket 有效时间、<span style="color:blue"> Client ID</span>、Client 网络地址</p>
+<p>Service Server 得到  <span style="color:#eb14a0"> [SessionKey_TGS] </span> 后，利用  <span style="color:#eb14a0"> [SessionKey_TGS] </span>  解密 <span class="bolangxian">用 <span style="color:#a27804"> [SessionKey_TGS]</span>  加密的 <span style="color:blue"> Client ID</span> 、<span style="color:red"> 时间戳</span></span> 得到 <span style="color:blue"> Client ID</span> 和 <span style="color:red"> 时间戳</span></p>
+<p>Service Server 对比解密出的两个 <span style="color:blue"> Client ID</span> ，如果相同，则说明 Client 拥有正确的  <span style="color:#a27804"> [SessionKey_TGS]</span> ，然后用  <span style="color:#a27804"> [SessionKey_TGS]</span>  加密上面解密出的 <span style="color:red"> 时间戳</span> 作为 Service Server 向 Client 发出的响应信息</p>
+<p>Client 收到了 Service Server 的响应信息后，使用本地缓存的 <span style="color:#a27804"> [SessionKey_TGS]</span> 解密得到 <span style="color:red"> 时间戳</span> ，然后将这个<span style="color:red"> 时间戳</span> 和 <strong>1) Client 向 Service Server 发送服务请求</strong>  中 <span class="bolangxian">用 <span style="color:#a27804"> [SessionKey_TGS]</span>  加密的 <span style="color:blue"> Client ID</span> 、<span style="color:red"> 时间戳</span></span>  中的时间戳进行对比，如果一致，则 Client 开始向 Service Server 发送请求</p>
+<p>上面的信息可以看出，该交互过程起到了 Client 与 Service Server 之间的 &ldquo;双向认证&rdquo; 作用</p>
+<h2 id="kerberos-协议抓包分析">Kerberos 协议抓包分析</h2>
+<p>当用户登陆域主机 Windows 系统时，客户端会向 KDC 发起 AS_REQ 请求</p>
+<p>现在我们来抓包，虚拟中有两台计算机 ( NAT 模式 )、两个域用户</p>
+<ul>
+<li>
+<p>域控：OWA2010CN-God.god.org</p>
+</li>
+<li>
+<p>域内主机：mary-PC.god.org</p>
+</li>
+<li>
+<p>域管理员：god\administrator：Admin12345</p>
+</li>
+<li>
+<p>普通域用户：god\mary：admin!@#45</p>
+</li>
+</ul>
+<p>利用 wireshark 抓 kerberos协议，选择 VMnet8</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221208161201934.png"
+    data-srcset="image-20221208161201934.png, image-20221208161201934.png 1.25x, image-20221208161201934.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221208161201934"
+    title="image-20221208161201934"/></p>
+<p>以 mary 用户登陆 mary-PC.god.org ，登陆成功后，发现 kerberos 协议</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="image-20221208161649404.png"
+    data-srcset="image-20221208161649404.png, image-20221208161649404.png 1.25x, image-20221208161649404.png 1.25x"
+    data-sizes="auto"
+    alt="image-20221208161649404"
+    title="image-20221208161649404"/></p>
+<p>第一次 AS-REQ 请求对应的响应信息为 &ldquo;KRB Error: KRB5KDC_ERR_PREAUTH_REQUIRED&rdquo;，这是因为在 Kerberos5 之前，Kerberos 允许不使用密码进行身份认证，而在 Kerberos5 中，密码信息不可或缺，这种过程称之为 &ldquo;预认证&rdquo;</p>
+<p>可能出于向后兼容考虑，Kerberos在执行预认证之前，首先会尝试不使用密码进行身份认证，因此在登录期间，发送初始 AS-REQ 后我们总是能看到一个错误信息，在这种情况下，攻击者有可能利用 AS-REP Roasting 攻击</p>
+<p>关于 TGS_REQ、TGS_REP、AP_REQ、AP_REP 的分析可结合 <a href="https://daiker.gitbook.io/windows-protocol/"target="_blank" rel="external nofollow noopener noreferrer">windows-protocol </a> 进行分析，后续再进行补充</p>
+<h2 id="参考文章">参考文章</h2>
+<p><a href="https://cloud.tencent.com/developer/article/2130133"target="_blank" rel="external nofollow noopener noreferrer">https://cloud.tencent.com/developer/article/2130133</a></p>
+<p><a href="https://www.anquanke.com/post/id/200680#h2-2"target="_blank" rel="external nofollow noopener noreferrer">https://www.anquanke.com/post/id/200680#h2-2</a></p>
+<a href="/kerberos.zip" title="Download kerberos.zip" class="card-link" download="kerberos.zip"><span class="cl-backdrop" style="--cl-bg-url: url(/fixit.min.svg);"></span>
+    <span class="cl-content">
+      <span class="cl-text">
+        <span class="cl-title">kerberos.zip</span>
+        <span class="cl-meta">
+          <svg class="cl-icon-link" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M574 665.4c-3.1-3.1-8.2-3.1-11.3 0L446.5 781.6c-53.8 53.8-144.6 59.5-204 0-59.5-59.5-53.8-150.2 0-204l116.2-116.2c3.1-3.1 3.1-8.2 0-11.3l-39.8-39.8c-3.1-3.1-8.2-3.1-11.3 0L191.4 526.5c-84.6 84.6-84.6 221.5 0 306s221.5 84.6 306 0l116.2-116.2c3.1-3.1 3.1-8.2 0-11.3L574 665.4zM832.6 191.4c-84.6-84.6-221.5-84.6-306 0L410.3 307.6c-3.1 3.1-3.1 8.2 0 11.3l39.7 39.7c3.1 3.1 8.2 3.1 11.3 0l116.2-116.2c53.8-53.8 144.6-59.5 204 0 59.5 59.5 53.8 150.2 0 204L665.3 562.6c-3.1 3.1-3.1 8.2 0 11.3l39.8 39.8c3.1 3.1 8.2 3.1 11.3 0l116.2-116.2c84.5-84.6 84.5-221.5 0-306.1z" fill="#a9a9b3"></path><path d="M610.1 372.3c-3.1-3.1-8.2-3.1-11.3 0L372.3 598.7c-3.1 3.1-3.1 8.2 0 11.3l39.6 39.6c3.1 3.1 8.2 3.1 11.3 0l226.4-226.4c3.1-3.1 3.1-8.2 0-11.3l-39.5-39.6z" fill="#a9a9b3"></path></svg>
+          <span class="cl-url">/kerberos.zip</span>
+        </span>
+      </span><svg class="cl-icon-download" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="64" height="64"><path d="M824.32 473.6c-15.36-2.56-25.6-15.36-25.6-30.72 0-112.64-71.68-217.6-179.2-250.88-148.48-46.08-289.28 38.4-332.8 166.4-2.56 10.24-12.8 17.92-23.04 20.48C143.36 401.92 51.2 509.44 51.2 637.44v2.56c0 115.2 97.28 204.8 209.92 204.8h524.8c102.4-2.56 184.32-84.48 184.32-186.88 2.56-89.6-61.44-163.84-145.92-184.32z m-273.92 225.28c-12.8 12.8-30.72 15.36-46.08 10.24H501.76c-5.12-2.56-10.24-5.12-15.36-10.24L366.08 578.56c-15.36-15.36-15.36-43.52 0-58.88 15.36-15.36 43.52-15.36 58.88 0l51.2 51.2V352.4608c0-23.04 17.92-40.96 40.96-40.96 23.04 0 40.96 17.92 40.96 40.96v218.4192l51.2-51.2c17.92-17.92 43.52-17.92 61.44 0 17.92 15.36 17.92 40.96 0 58.88l-120.32 120.32z" fill="#4FC089"></path></svg></span></a></div><div class="post-reward">
+    <div class="comment"></div>
+    <input type="checkbox" class="reward-input" name="reward" id="fi-reward" hidden />
+    <label class="reward-button" for="fi-reward">赞赏</label>
+    <div class="reward-ways"><div>
+            <img src="/images/wechatpay.png" alt=" 微信">
+            <span data-animation>微信</span>
+          </div></div>
+  </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-12-14&#32;10:01:36>更新于 2022-12-14&nbsp;</span>
+      </div></div>
+    <div class="post-info-line">
+      <div class="post-info-md"></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://example.org/posts/2022-1207-01/" data-title="深入理解 Kerberos 协议 (上)" data-hashtags="协议"><i class="fa-brands fa-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/posts/2022-1207-01/" data-title="深入理解 Kerberos 协议 (上)"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/posts/2022-1207-01/" data-title="深入理解 Kerberos 协议 (上)"><i class="fa-brands fa-evernote fa-fw" aria-hidden="true"></i></a>
+  </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%8D%8F%E8%AE%AE/' class="post-tag">协议</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/2022-1122-01/" class="post-nav-item" rel="prev" title="Linux权限提升"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Linux权限提升</a>
+      <a href="/posts/2022-1212-01/" class="post-nav-item" rel="next" title="深入理解 Kerberos 协议 (下)">深入理解 Kerberos 协议 (下)<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line statistics"><span class="site-time" title='网站运行中 ...'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i>&nbsp;<span class="run-times">网站运行中 ...</span></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/lunr/lunr.min.js" defer></script><script src="/lib/lunr/lunr.stemmer.support.min.js" defer></script><script src="/lib/lunr/lunr.zh.min.js" defer></script><script src="/lib/lazysizes/lazysizes.min.js" async defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"search":{"highlightTag":"em","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50},"siteTime":"2022-11-11T16:15:22+08:00"};</script><script src="/js/theme.min.js" defer></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@2.1.3/dist/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+
+</body>
+</html>

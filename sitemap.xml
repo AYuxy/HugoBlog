@@ -2,14 +2,20 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
   ><url>
-      <loc>http://example.org/</loc><lastmod>2022-12-04T23:51:38&#43;08:00</lastmod></url><url>
-      <loc>http://example.org/categories/</loc><lastmod>2022-12-04T23:51:38&#43;08:00</lastmod></url><url>
-      <loc>http://example.org/posts/2022-1122-01/</loc><lastmod>2022-12-04T23:51:38&#43;08:00</lastmod></url><url>
-      <loc>http://example.org/tags/linux%E6%8F%90%E6%9D%83/</loc><lastmod>2022-12-04T23:51:38&#43;08:00</lastmod></url><url>
-      <loc>http://example.org/posts/</loc><lastmod>2022-12-04T23:51:38&#43;08:00</lastmod></url><url>
-      <loc>http://example.org/tags/</loc><lastmod>2022-12-04T23:51:38&#43;08:00</lastmod></url><url>
-      <loc>http://example.org/categories/%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/</loc><lastmod>2022-12-04T23:51:38&#43;08:00</lastmod></url><url>
-      <loc>http://example.org/tags/hugo/</loc><lastmod>2022-12-03T23:39:39&#43;08:00</lastmod></url><url>
-      <loc>http://example.org/categories/hugo/</loc><lastmod>2022-12-03T23:39:39&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/</loc><lastmod>2022-12-14T10:01:36&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/categories/</loc><lastmod>2022-12-14T10:01:36&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/tags/draft/</loc><lastmod>2022-12-13T16:15:56&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/categories/draft/</loc><lastmod>2022-12-13T16:15:56&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/posts/</loc><lastmod>2022-12-14T10:01:36&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/tags/</loc><lastmod>2022-12-14T10:01:36&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/posts/2022-1212-01/</loc><lastmod>2022-12-13T16:15:56&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/categories/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8/</loc><lastmod>2022-12-14T10:01:36&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/posts/2022-1207-01/</loc><lastmod>2022-12-14T10:01:36&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/tags/%E5%8D%8F%E8%AE%AE/</loc><lastmod>2022-12-14T10:01:36&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/posts/2022-1122-01/</loc><lastmod>2022-12-07T19:48:23&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/tags/linux%E6%8F%90%E6%9D%83/</loc><lastmod>2022-12-07T19:48:23&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/categories/%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/</loc><lastmod>2022-12-07T19:48:23&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/tags/hugo/</loc><lastmod>2022-12-05T16:21:31&#43;08:00</lastmod></url><url>
+      <loc>http://example.org/categories/hugo/</loc><lastmod>2022-12-05T16:21:31&#43;08:00</lastmod></url><url>
       <loc>http://example.org/posts/2022-1112-01/</loc><lastmod>2022-12-03T23:39:39&#43;08:00</lastmod></url><url>
-      <loc>http://example.org/posts/2022-1111-01/</loc><lastmod>2022-12-03T23:27:14&#43;08:00</lastmod></url></urlset>
+      <loc>http://example.org/posts/2022-1111-01/</loc><lastmod>2022-12-05T16:21:31&#43;08:00</lastmod></url></urlset>
